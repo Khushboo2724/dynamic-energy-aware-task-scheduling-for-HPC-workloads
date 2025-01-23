@@ -1,0 +1,11 @@
+docker build -t hpc-ml-training:local container/ml-task/
+docker build -t hpc-simulation:local container/simulation-task/
+docker run --rm -v $(pwd)/output:/app/output hpc-data-processing:local
+docker run --rm -v %cd%\output:/app/output hpc-data-processing:local
+docker build -t hpc-data-processing:local container/data-processing-task/
+docker run --rm -v %cd%:/app/data -v %cd%\output:/app/output hpc-data-processing:local
+docker run --rm -v C:\Users\DELL\container\data-processing-task\data:/app/data -v C:\Users\DELL\output:/app/output hpc-data-processing:local
+docker run --rm -v %cd%/trained_model:/app hpc-ml-training:local
+docker run --rm -v C:\Users\DELL\container\ml-task:/app hpc-ml-training:local python /app/train_model.py
+docker run --rm hpc-simulation:local
+doskey /history

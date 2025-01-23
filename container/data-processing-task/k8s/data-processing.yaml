@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-processing-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-processor
+        image: hpc-data-processing:local
+        imagePullPolicy: Never  # Ensures that it uses the local image
+        command: ["python", "/app/process_data.py"]
+        env:  # Set environment variables if needed
+          - name: IVY_HOME
+            value: "/opt/ivy"  # Ensure this path is correct
+          - name: SPARK_HOME
+            value: "/opt/spark"  # Ensure this path is correct
+        volumeMounts:
+        - name: data-volume
+          mountPath: /app/data
+        - name: output-volume
+          mountPath: /app/output
+      restartPolicy: Never  # Ensures the job does not restart automatically on failure
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /run/desktop/mnt/host/c/Users/DELL/container/data-processing-task/data
+          type: Directory  # Ensure this directory exists on the host machine
+      - name: output-volume
+        #hostPath:
+          #path: /run/desktop/mnt/host/c/Users/DELL/output
+          #type: Directory  # Ensure this directory exists on the host machine
+        emptyDir: {}  # Use ephemeral in-cluster storage instead of host path

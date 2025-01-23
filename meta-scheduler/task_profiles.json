@@ -1,0 +1,20 @@
+[
+  {
+    "name": "data_processing_task",
+    "cpu": 4,
+    "mem": 8,
+    "gpu": 0
+  },
+  {
+    "name": "ml_training_task",
+    "cpu": 8,
+    "mem": 16,
+    "gpu": 1
+  },
+  {
+    "name": "simulation_task",
+    "cpu": 6,
+    "mem": 12,
+    "gpu": 0
+  }
+]

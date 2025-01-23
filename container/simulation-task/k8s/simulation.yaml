@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: simulation-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: simulator
+        image: hpc-simulation:local
+        imagePullPolicy: Never
+        command: ["./simulation"]  # Change this to match Dockerfile CMD
+      restartPolicy: Never

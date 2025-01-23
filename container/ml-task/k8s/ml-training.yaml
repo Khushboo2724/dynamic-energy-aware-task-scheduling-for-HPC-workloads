@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ml-training-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: ml-trainer
+        image: hpc-ml-training:local
+        imagePullPolicy: Never
+        command: ["python", "/app/train_model.py"]
+        volumeMounts:
+        - name: model-volume
+          mountPath: /app/trained_model
+      restartPolicy: Never
+      volumes:
+      - name: model-volume
+        #hostPath:
+          #path: /mnt/C/Users/DELL/container/ml-task/train_model
+          #type: Directory
+        emptyDir: {}  # Use ephemeral in-cluster storage instead of host path
+
